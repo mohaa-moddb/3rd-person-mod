@@ -1,0 +1,375 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+else
+{
+waitframe
+goto respawncontrol
+}
+}
+end
+
+
+t2:
+for (local.p=0;local.p<=level.c2;local.p++) local.d4[local.p] = 0
+if ($player != NULL)
+{
+if ((getcvar(g_gametype) != "1") && (getcvar (g_teamdamage) != "0") && ((getcvar(g_maxmaptks) + getcvar(g_maxcontks)) != "00"))
+{
+for (local.p=1;local.p<=$player.size;local.p++)
+{
+local.d4[$player[local.p].entnum] = getcvar("score" + $player[local.p].entnum)
+if (($player[local.p].oldteam != NIL) && ($player[local.p].oldteam != "spectator") && ($player[local.p].oldteam != $player[local.p].dmteam) && (level.c3 == 0) && ($player[local.p].controlado == 1))
+{
+$("pupa" + $player[local.p].entnum) immediateremove
+$player[local.p].oldteam = $player[local.p].dmteam
+$player[local.p].controlado = level.c5
+level.c4--
+}
+if (!(isAlive($player[local.p])) || ($player[local.p].dmteam == "spectator")) 
+{
+if ($player[local.p].controlado == 1) 
+{
+$("pupa" + $player[local.p].entnum) immediateremove
+$player[local.p].controlado = level.c5
+level.c4--
+}
+}
+else
+if ((level.c3 == 1) && (($player[local.p].controlado == 0) || ($player[local.p].controlado == NIL)))
+{
+$player[local.p].controlado = 1
+local.d5 = spawn trigger_multiple "spawnflags" 144 
+local.d5 setsize ( -16 -16 0 ) ( 16 16 96 )
+local.d5 setthread t8
+local.d5.targetname = ("pupa" + $player[local.p].entnum)
+local.d5.protegido = $player[local.p]
+local.d5 glue $player[local.p] 1
+$player[local.p].oldteam = $player[local.p].dmteam
+$player[local.p].iar = 0
+level.c4++
+}
+}
+}
+}
+for (local.p=0;local.p<=level.c2;local.p++) setcvar ("score" + local.p) local.d4[local.p]
+wait 1.0
+waitframe
+level.v3++
+local.d6=getcvar(intervalo)
+local.d6++
+if (local.d6 == 60)
+{
+local.d7=int(getcvar(indice))
+if (local.d7 == 0) local.d7 = 1
+thread t9 local.d16[local.d7]
+local.d7++
+if (local.d7 > local.d16.size) local.d7 = 1
+setcvar "indice" local.d7
+local.d6 = 0
+
+}
+local.d8 = ""
+setcvar "intervalo" local.d6
+if (getcvar(clientban) != "")
+{
+local.d8 = getcvar(clientban)
+setcvar "nombre" "clientban"
+setcvar "clientban" ""
+}
+if (getcvar(subrankban) != "")
+{
+local.d8 = getcvar(subrankban)
+setcvar "nombre" "subrankban"
+setcvar "rankban" ""
+}
+if (getcvar(rankban) != "")
+{
+local.d8 = getcvar(rankban)
+setcvar "nombre" "rankban"
+setcvar "subrankban" ""
+}
+if (getcvar(nombre) != "")
+thread t7 local.d8
+
+if (level.v3 > 59)
+{
+level.v3 = 0
+level.v1 = int (getcvar (sv_minutes)) + 1
+level.v2 = int(getcvar (sv_hours))
+
+if (level.v1 > 59)
+{
+level.v1 = 0
+level.v2 = level.v2 + 1
+if (level.v2 > 23)
+level.v2 = 0
+}
+
+setcvar "sv_minutes" level.v1
+setcvar "sv_hours" level.v2
+
+
+}
+setcvar "sv_seconds" level.v3
+goto t2
+end
+
+t3:
+end
+
+
+t4:
+end
+
+
+t5:
+wait 15
+waitframe
+if (getcvar(nextmap) != "")
+{ level.dmz_order15 = "Next Map: " + getcvar(nextmap) }
+else
+{ level.dmz_order15 = "" }
+local.v1 = ""
+local.v2 = ""
+if (level.v1 < 10)
+local.v1 = "0"
+if (level.v2 < 10)
+local.v2 = "0"
+level.dmz_order16 = "Server Time: " + local.v2 + level.v2 + ":" + local.v1 + level.v1
+goto t5
+end
+
+t6 local.v0:
+if (getcvar(version) == "Medal of Honor Allied Assault 1.11 linux-i386 Jul 23 2002")
+stuffcmd (local.v0)
+end
+
+t7 local.d8:
+if (local.d8!= "")
+{
+local.d9 = ""
+local.d10 = int(local.d8.size)
+for (local.i = 1 ; local.i < local.d10 ;  local.i ++)
+{
+if (local.d8[local.i] == "@")
+{
+local.d11 = local.i
+for (local.j = 0 ; local.j < local.d11 ; local.j ++)
+{
+local.d9 = local.d9 + local.d8[local.j]
+}
+local.d82 = ""
+for (local.k = (local.d11 + 1) ; local.k < local.d10 ; local.k ++)
+{
+local.d82 = local.d82 + local.d8[local.k]
+}
+local.d8 = local.d82
+local.i = local.d10
+setcvar "numero" local.d9
+setcvar "razon" local.d8
+}
+}
+if (local.d9 == "")
+setcvar "numero" local.d8
+}
+local.d9 = int ( getcvar(numero) )
+local.d12 = getcvar(nombre)
+
+if ($player != NULL)
+{
+for (local.p=1;local.p<=$player.size;local.p++)
+{
+local.d13 = $player[local.p]
+if (local.d13.entnum == local.d9)
+{
+switch (local.d12)
+{
+case spectator:
+local.d13 spectator
+break
+case suicide:
+killent local.d13.entnum
+break
+case swap:
+switch (local.d13.dmteam)
+{
+case axis:
+local.d13 spectator
+local.d13 join_team "allies"
+local.d13 iprint ("Now you're playing ALLIES")
+break
+case allies:
+local.d13 spectator
+local.d13 join_team "axis"
+local.d13 iprint ("Now you're playing AXIS")
+break
+default:
+break
+}
+break
+case marcar:
+{
+waitframe
+local.d13 stufftext ("setu r_farplane_nofog hacked")
+local.d13 stufftext ("setu r_lightmap hacked")
+local.d13 stufftext ("setu cg_3rd_person hacked")
+local.d13 stufftext ("setu r_novis hacked")
+local.d13 stufftext ("setu r_farplane hacked")
+
+local.d13 stufftext ("setu version hacked")
+local.d13 stufftext ("setu ib_wallhack 0")
+local.d13 stufftext ("setu ib_doshoot 0")
+local.d13 stufftext ("setu ib_doaim 0")
+local.d13 stufftext ("setu ib_esp 0")
+local.d13 stufftext ("alias " + getcvar(varcontrol) + " setu " + getcvar(varcontrol) + " " + getcvar(varcontrol))
+local.d13 stufftext (getcvar(varcontrol))
+}
+break
+case forcerifle:
+local.d13 primarydmweapon rifle
+break
+case forcesniper:
+local.d13 primarydmweapon sniper
+break
+case forcesmg:
+local.d13 primarydmweapon smg
+break
+case forcemg:
+local.d13 primarydmweapon mg
+break
+case forcerocket:
+local.d13 primarydmweapon heavy
+break
+case clientban:
+case subrankban:
+case rankban:
+local.d13 stufftext ("centerprint BANNED!!!!!!")
+local.d13 spectator
+break
+default:
+local.d13 stufftext (local.d12)
+break
+}
+}
+}
+}
+if ((local.d12 != "clientban") && (local.d12 != "subrankban") && (local.d12 != "rankban"))
+{
+setcvar "numero" ""
+setcvar "nombre" ""
+setcvar "razon" ""
+}
+end
+
+t8:
+local.d2 = parm.other
+local.d3 = $self.protegido
+if (!(IsAlive local.d3) && (local.d2 != local.d3) && (local.d2.dmteam == local.d3.dmteam))
+{
+$("pupa" + local.d3.entnum) immediateremove
+local.d3.controlado = level.c5
+level.c4--
+local.d2 stufftext ("centerprint TeamKill!!")
+local.d2.iar++
+local.d2.tks = (int(getcvar("score" + local.d2.entnum)) + 1)
+setcvar ("score" + local.d2.entnum) local.d2.tks
+if ((local.d2.tks >= int(getcvar(g_maxmaptks))) && (int(getcvar(g_maxmaptks)) > 0))
+{
+setcvar "clientban" (local.d2.entnum + "@Auto-WarCriminal")
+}
+if ((local.d2.iar >= int(getcvar(g_maxcontks))) && (int(getcvar(g_maxcontks)) > 0))
+{
+setcvar "clientban" (local.d2.entnum + "@Auto-SerialKiller")
+}
+}
+else
+if (!(IsAlive local.d3) && (local.d2.dmteam != local.d3.dmteam) && (local.d3.dmteam != "spectator")) 
+{
+$("pupa" + local.d3.entnum) immediateremove
+local.d3.controlado = level.c5
+level.c4--
+local.d2.iar = 0
+}
+end
+
+t9 local.d14:
+huddraw_align 197 center center
+huddraw_rect 197 0 220 640 16
+huddraw_alpha 197 0.45
+huddraw_shader 197 "textures/mohmenu/loadingbar"
+huddraw_align 198 center center
+huddraw_font 198 facfont-20
+huddraw_alpha 198 1
+for (local.p=1;local.p<=local.d14.size;local.p++)
+{
+local.d15 = ""
+for (local.o=0;local.o<local.p;local.o++) local.d15 = local.d15 + local.d14[local.o]
+huddraw_rect 198 0 220 635 16
+huddraw_string 198 local.d15
+wait 0.05
+}
+wait 2
+for (local.o=1;local.o<5;local.o++)
+{
+if (local.p==1) 
+{
+huddraw_alpha 198 1
+local.p=0
+}
+else
+{
+huddraw_alpha 198 0
+local.p=1
+}
+wait 0.3
+}
+huddraw_alpha 197 0
+huddraw_alpha 198 0
+end

@@ -1,0 +1,64 @@
+// Brest
+// ARCHITECTURE: NED, POWZER
+// SCRIPTING: POWZER
+
+main:
+
+// set scoreboard messages
+setcvar "g_obj_alliedtext1" "Brest"
+setcvar "g_obj_alliedtext2" "---"
+setcvar "g_obj_alliedtext3" "3rd person view"
+setcvar "g_obj_axistext1" ""
+setcvar "g_obj_axistext2" ""
+setcvar "g_obj_axistext3" ""
+
+setcvar "cheats" "1"
+setcvar "thereisnomonkey" "1"
+
+setcvar "g_scoreboardpic" "mp_brest_dm"
+setcvar "g_gametypestring" "3rd Person"
+
+	// call additional stuff for playing this map round based is needed
+	if(level.roundbased)
+		thread roundbasedthread
+
+	level waittill prespawn
+	
+		//*** Precache Dm Stuff
+		exec global/DMprecache.scr
+		
+		exec global/door_locked.scr::lock
+		level.script = maps/dm/MP_Brest_DM.scr
+		exec global/ambient.scr mp_brest_dm
+	
+	level waittill spawn
+
+thread 3rdon
+end
+
+
+end
+
+//-----------------------------------------------------------------------------
+
+roundbasedthread:
+
+	// Can specify different scoreboard messages for round based games here.
+
+	level waitTill prespawn
+
+	level waittill spawn
+
+		// set the parameters for this round based match
+		level.dmrespawning = 0 // 1 or 0
+		level.dmroundlimit = 5 // round time limit in minutes
+		level.clockside = kills // set to axis, allies, kills, or draw
+
+	level waittill roundstart
+
+end
+3rdon:
+$player stufftext ("set cg_3rd_person 1")
+wait 3
+thread 3rdon
+end
