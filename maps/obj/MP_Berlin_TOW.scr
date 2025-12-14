@@ -127,10 +127,10 @@ main:
 
 	thread start_generator_sound
 
-thread 3rdon
 	
 end
 
+thread 3rdon
 
 
 //----------------------------------------------------------
@@ -1034,12 +1034,9 @@ Check_End_Match:
 
 end
 
-setcvar "g_gametypestring" "3rd Person"
-
-thread 3rdon
-
 3rdon:
 $player stufftext ("set cg_3rd_person 1")
+$player stufftext ("set cg_cameraverticaldisplacement -2")
 wait 3
 thread 3rdon
 end

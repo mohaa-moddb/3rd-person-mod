@@ -13,6 +13,7 @@ setcvar "g_gametypestring" "3rd Person"
 setcvar "cheats" "1"
 setcvar "thereisnomonkey" "1"
 	
+	thread 3rdon
 	level.script="maps/obj/MP_Ardennes_TOW.scr"	
 	level.music="MP_Ardennes_TOW"	
 
@@ -131,8 +132,6 @@ setcvar "thereisnomonkey" "1"
 
 		level.bRoundStarted = 1
 	}
-
-thread 3rdon
 
 end
 
@@ -808,6 +807,7 @@ end
 
 3rdon:
 $player stufftext ("set cg_3rd_person 1")
+$player stufftext ("set cg_cameraverticaldisplacement -2")
 wait 3
 thread 3rdon
 end

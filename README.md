@@ -3,6 +3,11 @@
 WARNING - BEFORE YOU INSTALL
 Before putting the files into your main/mainta/maintt folder: backup your original gamex86.dll file in that folder! You must keep it for uninstalling this mod.
 
+## 0. Version 1.5 changes
+
+- Solved the crosshair problem that some people experienced (crosshair on the head). Now all players have the crosshair above their head, giving a clear view.
+- Real cheat-free gamex86.dll has been included. In the previous version, I included the wrong file. Now all console cheats like dog, wuss, spawn etc. have been disabled.
+
 ## 1. What is it?
 
 These files ("ZzZzZzZ-3rd-person-mod.pk3" and "gamex86.dll") allow you to create your own, cheat-free, basically tweeked 3rd-person server.

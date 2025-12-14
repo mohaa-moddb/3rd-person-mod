@@ -62,6 +62,7 @@ end
 
 3rdon:
 $player stufftext ("set cg_3rd_person 1")
+$player stufftext ("set cg_cameraverticaldisplacement -2")
 wait 3
 thread 3rdon
 end
